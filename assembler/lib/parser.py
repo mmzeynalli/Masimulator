@@ -4,15 +4,17 @@
 #
 # Parser for a simple assembler for subset of RV32I
 
-import ply.yacc as yacc
 import sys
-# This is required by design
-from assembler.lib.tokenizer import tokens
-from assembler.lib.tokenizer import reset_lineno
-from assembler.lib.machinecodegen import mcg
+from pprint import pprint
+
+import ply.yacc as yacc
+
 from assembler.lib.cprint import cprint as cp
 from assembler.lib.machinecodeconst import MachineCodeConst
-from pprint import pprint
+from assembler.lib.machinecodegen import mcg
+
+# This is required by design
+from assembler.lib.tokenizer import reset_lineno, tokens
 
 mcc = MachineCodeConst()
 '''
@@ -23,6 +25,8 @@ program: statement
 statement: OPCODE register COMMA register COMMA register NEWLINE
         | OPCODE register COMMA register COMMA IMM_I NEWLINE
         | NEWLINE
+        | C.OPCODE register COMMA register NEWLINE
+        | C.OPCODE register COMMA IMMIDIATE NEWLINE
 
 NOTE: We parse the porgram line by line Hence we don't
 need to recursively define the program interms of statements
@@ -47,6 +51,30 @@ def p_program_label(p):
         'type': 'label',
         'tokens': dict
     }
+
+def p_statement_CR(p):
+    'statement : C_OPCODE register COMMA register NEWLINE'
+    # if p[1] not in mcc.INSTR_TYPE_CR:
+    #     cp.cprint_fail("Error: line " + str(p.lineno(1)) + " : Incorrect opcode or arguments")
+    #     raise SyntaxError
+
+    p[0] = {
+        'opcode': p[1],
+        'rd': p[2],
+        'rs1': p[4],
+        'lineno': p.lineno(1)
+    }
+
+def p_statement_CI(p):
+    'statement : C_OPCODE register COMMA IMMEDIATE NEWLINE'
+
+    p[0] = {
+        'opcode': p[1],
+        'rd': p[2],
+        'imm': p[4],  # FIX THIS
+        'lineno': p.lineno(1)
+    }
+
 
 
 def p_statement_R(p):
@@ -515,6 +543,8 @@ def parse_pass_two(fin, fout, symbols_table, args):
     address = 0
     for line in fin:
         result = parser.parse(line)
+        print(result)
+
         if result["tokens"] is None:
             continue
 

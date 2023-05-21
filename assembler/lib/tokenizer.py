@@ -9,12 +9,14 @@
 # http://www.dabeaz.com/ply/ply.html
 # for its documentation.
 import ply.lex as lex
+
 from assembler.lib.machinecodeconst import MachineCodeConst
 
 mcc = MachineCodeConst()
 # List of token names. This is always required
 tokens = (
     'OPCODE',
+    'C_OPCODE',
     'LABEL',
     'REGISTER',
     'COMMA',
@@ -41,15 +43,20 @@ tok.type, tok.value, tok.lineno, and tok.lexpos.
 
 
 def t_OPCODE(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    r'(c\.)?[a-zA-Z_0-9]+'
     if t.value in mcc.ALL_INSTR:
         t.type = "OPCODE"
         return t
+    
+    if t.value in mcc.ALL_C_INSTR:
+        t.type = "C_OPCODE"
+        return t
+    
     return t_LABEL(t)
 
 
 def t_LABEL(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    r'[a-zA-Z_0-9]+'
     if t.value in mcc.ALL_INSTR:
         return t_OPCODE(t)
     t.type = "LABEL"

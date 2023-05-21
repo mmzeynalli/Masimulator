@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'COLUMN COMMA IMMEDIATE LABEL NEWLINE OPCODE REGISTERprogram : statementprogram : LABEL COLUMN NEWLINEstatement : OPCODE register COMMA register COMMA register NEWLINEstatement : OPCODE register COMMA register COMMA IMMEDIATE NEWLINEstatement : OPCODE register COMMA IMMEDIATE NEWLINEstatement : OPCODE register COMMA LABEL NEWLINEstatement : OPCODE register COMMA register COMMA LABEL NEWLINEregister : REGISTERstatement : NEWLINE'
+_lr_signature = 'COLUMN COMMA C_OPCODE IMMEDIATE LABEL NEWLINE OPCODE REGISTERprogram : statementprogram : LABEL COLUMN NEWLINEstatement : C_OPCODE register COMMA register NEWLINEstatement : C_OPCODE register COMMA IMMEDIATE NEWLINEstatement : OPCODE register COMMA register COMMA register NEWLINEstatement : OPCODE register COMMA register COMMA IMMEDIATE NEWLINEstatement : OPCODE register COMMA IMMEDIATE NEWLINEstatement : OPCODE register COMMA LABEL NEWLINEstatement : OPCODE register COMMA register COMMA LABEL NEWLINEregister : REGISTERstatement : NEWLINE'
     
-_lr_action_items = {'LABEL':([0,10,14,],[3,13,19,]),'OPCODE':([0,],[5,]),'NEWLINE':([0,6,8,12,13,17,18,19,],[4,9,-8,15,16,20,21,22,]),'$end':([1,2,4,9,15,16,20,21,22,],[0,-1,-9,-2,-5,-6,-3,-4,-7,]),'COLUMN':([3,],[6,]),'REGISTER':([5,10,14,],[8,8,8,]),'COMMA':([7,8,11,],[10,-8,14,]),'IMMEDIATE':([10,14,],[12,18,]),}
+_lr_action_items = {'LABEL':([0,13,21,],[3,18,26,]),'C_OPCODE':([0,],[5,]),'OPCODE':([0,],[6,]),'NEWLINE':([0,7,9,14,15,17,18,24,25,26,],[4,11,-10,19,20,22,23,27,28,29,]),'$end':([1,2,4,11,19,20,22,23,27,28,29,],[0,-1,-11,-2,-3,-4,-7,-8,-5,-6,-9,]),'COLUMN':([3,],[7,]),'REGISTER':([5,6,12,13,21,],[9,9,9,9,9,]),'COMMA':([8,9,10,16,],[12,-10,13,21,]),'IMMEDIATE':([12,13,21,],[15,17,25,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'statement':([0,],[2,]),'register':([5,10,14,],[7,11,17,]),}
+_lr_goto_items = {'program':([0,],[1,]),'statement':([0,],[2,]),'register':([5,6,12,13,21,],[8,10,14,16,24,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,13 +27,15 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> statement','program',1,'p_program_statement','parser.py',33),
-  ('program -> LABEL COLUMN NEWLINE','program',3,'p_program_label','parser.py',41),
-  ('statement -> OPCODE register COMMA register COMMA register NEWLINE','statement',7,'p_statement_R','parser.py',53),
-  ('statement -> OPCODE register COMMA register COMMA IMMEDIATE NEWLINE','statement',7,'p_statement_I_S_SB','parser.py',67),
-  ('statement -> OPCODE register COMMA IMMEDIATE NEWLINE','statement',5,'p_statement_U_UJ','parser.py',112),
-  ('statement -> OPCODE register COMMA LABEL NEWLINE','statement',5,'p_statement_UJ_LABEL','parser.py',142),
-  ('statement -> OPCODE register COMMA register COMMA LABEL NEWLINE','statement',7,'p_statement_SB__JALR_LABEL','parser.py',157),
-  ('register -> REGISTER','register',1,'p_register','parser.py',182),
-  ('statement -> NEWLINE','statement',1,'p_statement_none','parser.py',194),
+  ('program -> statement','program',1,'p_program_statement','parser.py',37),
+  ('program -> LABEL COLUMN NEWLINE','program',3,'p_program_label','parser.py',45),
+  ('statement -> C_OPCODE register COMMA register NEWLINE','statement',5,'p_statement_CR','parser.py',56),
+  ('statement -> C_OPCODE register COMMA IMMEDIATE NEWLINE','statement',5,'p_statement_CI','parser.py',69),
+  ('statement -> OPCODE register COMMA register COMMA register NEWLINE','statement',7,'p_statement_R','parser.py',79),
+  ('statement -> OPCODE register COMMA register COMMA IMMEDIATE NEWLINE','statement',7,'p_statement_I_S_SB','parser.py',93),
+  ('statement -> OPCODE register COMMA IMMEDIATE NEWLINE','statement',5,'p_statement_U_UJ','parser.py',138),
+  ('statement -> OPCODE register COMMA LABEL NEWLINE','statement',5,'p_statement_UJ_LABEL','parser.py',168),
+  ('statement -> OPCODE register COMMA register COMMA LABEL NEWLINE','statement',7,'p_statement_SB__JALR_LABEL','parser.py',183),
+  ('register -> REGISTER','register',1,'p_register','parser.py',208),
+  ('statement -> NEWLINE','statement',1,'p_statement_none','parser.py',220),
 ]

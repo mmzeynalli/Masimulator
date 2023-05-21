@@ -47,6 +47,31 @@ class MachineCodeConst:
     INSTR_AND = 'and'
     INSTR_MUL = 'mul'
 
+    # Compressed Instructions
+    INSTR_C_LW = 'c.lw'
+    INSTR_C_SW = 'c.sw'
+    INSTR_C_ADD = 'c.add'
+    INSTR_C_ADDI = 'c.addi'
+    INSTR_C_SUB = 'c.sub'
+    INSTR_C_AND = 'c.and'
+    INSTR_C_ANDI = 'c.andi'
+    INSTR_C_OR = 'c.or'
+    INSTR_C_XOR = 'c.xor'
+    INSTR_C_MV = 'c.mv'
+    INSTR_C_LI = 'c.li'
+    INSTR_C_LUI = 'c.lui'
+    INSTR_C_SLLI = 'c.slli'
+    INSTR_C_SRAI = 'c.srai'
+    INSTR_C_SRLI = 'c.srli'
+
+    # All compressed opcodes
+    ALL_C_INSTR = [INSTR_C_LW, INSTR_C_SW, INSTR_C_ADD,
+                   INSTR_C_ADDI, INSTR_C_SUB, INSTR_C_AND,
+                   INSTR_C_ANDI, INSTR_C_OR, INSTR_C_XOR,
+                   INSTR_C_MV, INSTR_C_LI, INSTR_C_LUI,
+                   INSTR_C_SLLI, INSTR_C_SRAI, INSTR_C_SRLI]
+
+
     # All reserved opcodes
     ALL_INSTR = [INSTR_LUI, INSTR_AUIPC, INSTR_JAL,
                  INSTR_JALR, INSTR_BEQ, INSTR_BNE, INSTR_BLT,
@@ -61,6 +86,7 @@ class MachineCodeConst:
                  INSTR_SRA, INSTR_OR, INSTR_AND,
                  INSTR_MUL
                  ]
+    
     # All instruction in a type
     INSTR_TYPE_U = [INSTR_LUI, INSTR_AUIPC]
     INSTR_TYPE_UJ = [INSTR_JAL]
